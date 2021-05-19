@@ -59,6 +59,11 @@ impl NetworkCommandHandler {
         debug!("NetworkManager connection initialized");
 
         let device = find_device(&manager, &config.interface)?;
+        
+        //scan for new networks
+        let wifi_device = device.as_wifi_device().unwrap();
+        wifi_device.request_scan();
+		    thread::sleep(Duration::from_secs(2));
 
         let access_points = get_access_points(&device)?;
 
